@@ -8,8 +8,12 @@ jobs:
   CodeQL-Build:
     runs-on: ubuntu-latest
 
+    # ➜ Add matrix here
+    strategy:
+      matrix:
+        language: [javascript]   # You can replace with any CodeQL-supported language
+
     permissions:
-      # required for all workflows
       security-events: write
       actions: read
       contents: read
@@ -21,8 +25,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
-          config-file: ./.github/codeql/codeql-config.yml
-          language: csharp
+          languages: ${{ matrix.language }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
